@@ -3,9 +3,7 @@ package com.example.server.controllers;
 
 import com.example.server.models.Activity;
 import com.example.server.models.Pagination;
-import com.example.server.models.Post;
 import com.example.server.payloads.request.ActivityRequest;
-import com.example.server.payloads.response.ResponeObject;
 import com.example.server.payloads.response.ResponseObjectPagination;
 import com.example.server.services.ActivityService;
 import org.springframework.data.domain.Page;
@@ -14,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.sql.Timestamp;
 
 @CrossOrigin(origins="*",maxAge = 3600)
 @RestController

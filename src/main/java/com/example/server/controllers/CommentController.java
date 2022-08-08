@@ -1,7 +1,7 @@
 package com.example.server.controllers;
 
 import com.example.server.models.*;
-import com.example.server.payloads.response.ResponeObject;
+import com.example.server.payloads.response.ResponseObject;
 import com.example.server.payloads.response.ResponseObjectPagination;
 import com.example.server.services.CommentService;
 import org.springframework.data.domain.Page;
@@ -78,19 +78,19 @@ public class CommentController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<ResponeObject> getCommentById(@PathVariable int id){
+    ResponseEntity<ResponseObject> getCommentById(@PathVariable int id){
         Optional<Comment> comment=commentService.getCommentById(id);
         return comment.isPresent()?
                 ResponseEntity.status(HttpStatus.OK).body(
-                        new ResponeObject("ok","Query comment successfully",comment)
+                        new ResponseObject("ok","Query comment successfully",comment)
                 ):
                 ResponseEntity.status(HttpStatus.OK).body(
-                        new ResponeObject("failed","Cannot find comment with id="+id,"")
+                        new ResponseObject("failed","Cannot find comment with id="+id,"")
                 );
     }
 
     @PostMapping("")
-    ResponseEntity<ResponeObject> insertComment(@RequestBody Comment newComment){
+    ResponseEntity<ResponseObject> insertComment(@RequestBody Comment newComment){
         newComment.setAuthor(commentService.getUserById(newComment.getAuthor().getId()));
         if(newComment.getPost()!=null){
 
@@ -101,12 +101,12 @@ public class CommentController {
 //        }
         newComment.setCreateAt(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponeObject("ok","Insert comment succesfully",commentService.addComment(newComment))
+                new ResponseObject("ok","Insert comment succesfully",commentService.addComment(newComment))
         );
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<ResponeObject> updateComment(@RequestBody Comment newComment,@PathVariable int id){
+    ResponseEntity<ResponseObject> updateComment(@RequestBody Comment newComment, @PathVariable int id){
         Comment updatedComment= commentService.getCommentById(id)
                 .map(comment->{
                     comment.setContent(newComment.getContent());
@@ -118,21 +118,21 @@ public class CommentController {
                     return commentService.addComment(newComment);
                 });
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponeObject("ok","Update comment successfully",commentService.addComment(updatedComment))
+                new ResponseObject("ok","Update comment successfully",commentService.addComment(updatedComment))
         );
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<ResponeObject> deleteComment(@PathVariable int id){
+    ResponseEntity<ResponseObject> deleteComment(@PathVariable int id){
         boolean exists=commentService.ifCommentExists(id);
         if(exists){
             commentService.deleteCommentById(id);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponeObject("ok","Deleted comment succesfully","")
+                    new ResponseObject("ok","Deleted comment succesfully","")
             );
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                new ResponeObject("failed","Cannot find comment to delete","")
+                new ResponseObject("failed","Cannot find comment to delete","")
         );
     }
 }

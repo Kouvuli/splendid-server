@@ -1,7 +1,7 @@
 package com.example.server.controllers;
 
 import com.example.server.models.*;
-import com.example.server.payloads.response.ResponeObject;
+import com.example.server.payloads.response.ResponseObject;
 import com.example.server.services.ReactionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +25,13 @@ public class ReactionController {
 
 
     @GetMapping("")
-    ResponseEntity<ResponeObject> getReactionCount(
+    ResponseEntity<ResponseObject> getReactionCount(
             @RequestParam(required = false,name = "post_id") Integer postId,
             @RequestParam(required = false,name = "comment_id") Integer commentId
     ){
         if(postId==null &&commentId==null){
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponeObject("ok","successfully get data",reactionService.getAllReaction())
+                    new ResponseObject("ok","successfully get data",reactionService.getAllReaction())
             );
         }
 
@@ -45,24 +45,24 @@ public class ReactionController {
 //            reactionCount=reactionService.getTargetCountByCommentId(String.valueOf(commentId));
         }
         return ResponseEntity.status(HttpStatus.OK).body(
-              new ResponeObject("ok","get reaction succesfully",foundReactions)
+              new ResponseObject("ok","get reaction succesfully",foundReactions)
         );
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<ResponeObject> getReactionById(@PathVariable int id){
+    ResponseEntity<ResponseObject> getReactionById(@PathVariable int id){
         Optional<Reaction> post=reactionService.getReactionById(id);
         return post.isPresent()?
                 ResponseEntity.status(HttpStatus.OK).body(
-                        new ResponeObject("ok","Query reaction succesfully",post)
+                        new ResponseObject("ok","Query reaction succesfully",post)
                 ):
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                        new ResponeObject("failed","Cannot find reaction with id="+id,"")
+                        new ResponseObject("failed","Cannot find reaction with id="+id,"")
                 );
     }
 
     @PostMapping("")
-    ResponseEntity<ResponeObject> insertReaction(@RequestBody Reaction newReaction){
+    ResponseEntity<ResponseObject> insertReaction(@RequestBody Reaction newReaction){
         if(newReaction.getPost()!=null){
 
             newReaction.setPost(reactionService.getPostById(newReaction.getPost().getId()));
@@ -74,12 +74,12 @@ public class ReactionController {
         newReaction.setCreateAt(new Timestamp(System.currentTimeMillis()));
 
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponeObject("ok","Insert reaction succesfully",reactionService.addReaction(newReaction))
+                new ResponseObject("ok","Insert reaction succesfully",reactionService.addReaction(newReaction))
         );
     }
 
     @DeleteMapping("")
-    ResponseEntity<ResponeObject> deleteReaction(
+    ResponseEntity<ResponseObject> deleteReaction(
             @RequestParam(required = false,name = "author_id") Integer authorId,
             @RequestParam(required = false,name = "post_id") Integer postId,
             @RequestParam(required = false,name = "comment_id") Integer commentId
@@ -96,24 +96,24 @@ public class ReactionController {
         if(reactionId!=null){
             reactionService.deleteReactionById(reactionId);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponeObject("ok","Deleted reaction succesfully","")
+                    new ResponseObject("ok","Deleted reaction succesfully","")
             );
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                new ResponeObject("failed","Cannot find reaction to delete","")
+                new ResponseObject("failed","Cannot find reaction to delete","")
         );
     }
     @DeleteMapping("/{id}")
-    ResponseEntity<ResponeObject> deleteReaction(@PathVariable int id){
+    ResponseEntity<ResponseObject> deleteReaction(@PathVariable int id){
         boolean exists=reactionService.ifReactionExists(id);
         if(exists){
             reactionService.deleteReactionById(id);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponeObject("ok","Deleted reaction succesfully","")
+                    new ResponseObject("ok","Deleted reaction succesfully","")
             );
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                new ResponeObject("failed","Cannot find reaction to delete","")
+                new ResponseObject("failed","Cannot find reaction to delete","")
         );
     }
 }

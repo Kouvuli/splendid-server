@@ -1,11 +1,9 @@
 package com.example.server.controllers;
 
 
-import com.example.server.models.Comment;
 import com.example.server.models.List;
 import com.example.server.models.Pagination;
-import com.example.server.models.Post;
-import com.example.server.payloads.response.ResponeObject;
+import com.example.server.payloads.response.ResponseObject;
 import com.example.server.payloads.response.ResponseObjectPagination;
 import com.example.server.services.ListService;
 import org.springframework.data.domain.Page;
@@ -45,7 +43,7 @@ public class ListController {
     }
 
     @PostMapping("")
-    ResponseEntity<ResponeObject> insertList(@RequestBody List newList){
+    ResponseEntity<ResponseObject> insertList(@RequestBody List newList){
         List temp = listService.getListByMalIdUserIdMalType(newList.getMalId(), newList.getUser().getId(), newList.getMalType());
         List result=null;
         if(temp!=null){
@@ -60,20 +58,20 @@ public class ListController {
 
 
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponeObject("ok","Insert user succesfully",result)
+                new ResponseObject("ok","Insert user succesfully",result)
         );
     }
     @DeleteMapping("/{id}")
-    ResponseEntity<ResponeObject> deleteList(@PathVariable int id){
+    ResponseEntity<ResponseObject> deleteList(@PathVariable int id){
         boolean exists=listService.ifListExist(id);
         if(exists){
             listService.deleteListById(id);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponeObject("ok","Deleted list succesfully","")
+                    new ResponseObject("ok","Deleted list succesfully","")
             );
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                new ResponeObject("failed","Cannot find list to delete","")
+                new ResponseObject("failed","Cannot find list to delete","")
         );
     }
 }

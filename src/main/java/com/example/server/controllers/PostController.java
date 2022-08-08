@@ -3,8 +3,7 @@ package com.example.server.controllers;
 
 import com.example.server.models.Pagination;
 import com.example.server.models.Post;
-import com.example.server.models.User;
-import com.example.server.payloads.response.ResponeObject;
+import com.example.server.payloads.response.ResponseObject;
 import com.example.server.payloads.response.ResponseObjectPagination;
 import com.example.server.services.PostService;
 import org.springframework.data.domain.Page;
@@ -48,30 +47,30 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<ResponeObject> getPostById(@PathVariable int id){
+    ResponseEntity<ResponseObject> getPostById(@PathVariable int id){
         Optional<Post> post=postService.getPostById(id);
 
         return post.isPresent()?
              ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponeObject("ok","Query post succesfully",post)
+                    new ResponseObject("ok","Query post succesfully",post)
             ):
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    new ResponeObject("failed","Cannot find post with id="+id,"")
+                    new ResponseObject("failed","Cannot find post with id="+id,"")
             );
     }
 
     @PostMapping("")
-    ResponseEntity<ResponeObject> insertPost(@RequestBody Post newPost){
+    ResponseEntity<ResponseObject> insertPost(@RequestBody Post newPost){
         int authorId =newPost.getAuthor().getId();
         newPost.setAuthor(postService.getUserById(authorId));
         newPost.setCreateAt(new Timestamp(System.currentTimeMillis()));
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponeObject("ok","Insert post succesfully",postService.addPost(newPost))
+                new ResponseObject("ok","Insert post succesfully",postService.addPost(newPost))
         );
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<ResponeObject> updatePost(@RequestBody Post newPost,@PathVariable int id){
+    ResponseEntity<ResponseObject> updatePost(@RequestBody Post newPost, @PathVariable int id){
         Post updatedPost= postService.getPostById(id)
                 .map(post->{
                     post.setContent(newPost.getContent());
@@ -83,21 +82,21 @@ public class PostController {
                     return postService.addPost(newPost);
                 });
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponeObject("ok","Update Post successfully",postService.addPost(updatedPost))
+                new ResponseObject("ok","Update Post successfully",postService.addPost(updatedPost))
         );
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<ResponeObject> deletePost(@PathVariable int id){
+    ResponseEntity<ResponseObject> deletePost(@PathVariable int id){
         boolean exists=postService.ifPostExists(id);
         if(exists){
             postService.deletePostById(id);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponeObject("ok","Deleted post succesfully","")
+                    new ResponseObject("ok","Deleted post succesfully","")
             );
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                new ResponeObject("failed","Cannot find post to delete","")
+                new ResponseObject("failed","Cannot find post to delete","")
         );
     }
 

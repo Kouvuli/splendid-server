@@ -4,7 +4,7 @@ import com.example.server.models.User;
 import com.example.server.payloads.request.LoginRequest;
 import com.example.server.payloads.request.SignupRequest;
 import com.example.server.payloads.response.JwtResponse;
-import com.example.server.payloads.response.ResponeObject;
+import com.example.server.payloads.response.ResponseObject;
 import com.example.server.repositories.UserRepository;
 import com.example.server.security.jwt.JwtUtils;
 import com.example.server.security.services.UserDetailsImpl;
@@ -18,8 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @CrossOrigin(origins="*",maxAge = 3600)
 @RestController
@@ -55,7 +53,7 @@ public class AuthController {
 //                .map(item -> item.getAuthority())
 //                .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new ResponeObject("ok","successfully get user",new JwtResponse(jwt,
+        return ResponseEntity.ok(new ResponseObject("ok","successfully get user",new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername())));
     }
@@ -65,7 +63,7 @@ public class AuthController {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new ResponeObject("failed","Error: Username is already taken!",""));
+                    .body(new ResponseObject("failed","Error: Username is already taken!",""));
         }
 
 
@@ -106,6 +104,6 @@ public class AuthController {
 //        user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new ResponeObject("ok","User registered successfully!",""));
+        return ResponseEntity.ok(new ResponseObject("ok","User registered successfully!",""));
     }
 }
