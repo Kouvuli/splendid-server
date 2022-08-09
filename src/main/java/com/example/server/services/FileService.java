@@ -80,8 +80,8 @@ public class FileService {
         Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/java/com/example/server/credentials/splendid-4d803-firebase-adminsdk-j6aw3-0f31c4f999.json"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
-        String a=URLEncoder.encode(fileName, StandardCharsets.UTF_8);
-        return String.format("https://firebasestorage.googleapis.com/v0/b/splendid-4d803.appspot.com/o/%s?alt=media", URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+//        String a=URLEncoder.encode(fileName, StandardCharsets.UTF_8);
+        return String.format("https://firebasestorage.googleapis.com/v0/b/splendid-4d803.appspot.com/o/%s?alt=media", fileName);
     }
 
     private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
