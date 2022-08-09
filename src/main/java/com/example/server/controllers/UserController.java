@@ -55,25 +55,25 @@ public class UserController {
     ResponseEntity<ResponseObject> updateUser(@RequestBody User newUser, @PathVariable int id){
         User updatedUser= userService.getUserById(id)
                 .map(user->{
-                    if(!newUser.getAddress().isEmpty())
+                    if(newUser.getAddress()!=null)
                         user.setAddress(newUser.getAddress());
-                    if(!newUser.getDob().isEmpty()){
+                    if(newUser.getDob()!=null){
 
                         user.setDob(newUser.getDob());
                     }
-                    if(!newUser.getJob().isEmpty()){
+                    if(newUser.getJob()!=null){
 
                         user.setJob(newUser.getJob());
                     }
-                    if(!newUser.getFullname().isEmpty()){
+                    if(newUser.getFullname()!=null){
 
                         user.setFullname(newUser.getFullname());
                     }
-                    if(!newUser.getAvatar().isEmpty()){
+                    if(newUser.getAvatar()!=null){
 
                         user.setAvatar(newUser.getAvatar());
                     }
-                    if(!newUser.getBackground().isEmpty()){
+                    if(newUser.getBackground()!=null){
 
                         user.setBackground(newUser.getBackground());
                     }
