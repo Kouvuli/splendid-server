@@ -30,11 +30,11 @@ public class FileController {
 //        }
 //    }
     @PostMapping("")
-    public ResponseEntity<ResponseObject> uploadFile(@RequestParam("file")MultipartFile file){
+    public ResponseEntity<ResponseObject> uploadFile(@RequestParam("file") MultipartFile file){
         try{
-            String generatedFileName=fileService.storeFile(file);
+            String link= fileService.upload(file);
 
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok","upload successfully",  generatedFileName));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok","upload successfully",  link));
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new ResponseObject("failed",e.getMessage(),""));
         }

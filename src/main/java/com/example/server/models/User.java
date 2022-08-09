@@ -38,6 +38,10 @@ public class User {
 
     private String username;
 
+    private String avatar;
+
+    private String background;
+
     private String job;
 
     private String address;
@@ -50,18 +54,24 @@ public class User {
     public User() {
     }
 
-    public User(String fullname, String dob, String username, String password, boolean isAdmin) {
-        this.fullname = fullname;
-        this.dob = dob;
-        this.username = username;
-        this.password = password;
-        this.isAdmin = isAdmin;
-    }
+
 
     public User(String fullname, String dob, String username, String job, String address, String password, boolean isAdmin) {
         this.fullname = fullname;
         this.dob = dob;
         this.username = username;
+        this.job = job;
+        this.address = address;
+        this.password = password;
+        this.isAdmin = isAdmin;
+    }
+
+    public User(String fullname, String dob, String username, String avatar, String background, String job, String address, String password, boolean isAdmin) {
+        this.fullname = fullname;
+        this.dob = dob;
+        this.username = username;
+        this.avatar = avatar;
+        this.background = background;
         this.job = job;
         this.address = address;
         this.password = password;
@@ -90,6 +100,22 @@ public class User {
 
     public void setLists(Set<List> lists) {
         this.lists = lists;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getBackground() {
+        return background;
+    }
+
+    public void setBackground(String background) {
+        this.background = background;
     }
 
     public int getId() {

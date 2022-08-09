@@ -59,6 +59,8 @@ public class UserController {
                     user.setDob(newUser.getDob());
                     user.setJob(newUser.getJob());
                     user.setFullname(newUser.getFullname());
+                    user.setAvatar(newUser.getAvatar());
+                    user.setBackground(newUser.getBackground());
 
                     return userService.addUser(user);
                 }).orElseGet(()->{
