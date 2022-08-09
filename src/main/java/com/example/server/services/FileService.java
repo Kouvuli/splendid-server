@@ -77,7 +77,7 @@ public class FileService {
     private String uploadFile(File file, String fileName) throws IOException {
         BlobId blobId = BlobId.of("splendid-4d803.appspot.com", fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./splendid-4d803-firebase-adminsdk-j6aw3-0f31c4f999.json"));
+        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/java/com/example/server/credentials/splendid-4d803-firebase-adminsdk-j6aw3-0f31c4f999.json"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
         String a=URLEncoder.encode(fileName, StandardCharsets.UTF_8);
