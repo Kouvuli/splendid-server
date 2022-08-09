@@ -40,14 +40,14 @@ public class FileController {
         }
     }
 
-    @GetMapping("/uploads/{fileName:.+}")
-    public ResponseEntity<byte[]> readFile(@PathVariable String fileName){
-        try{
-            byte[] bytes=fileService.readFileContent(fileName);
-            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.IMAGE_JPEG).body(bytes);
-        }
-        catch (Exception e){
-            return ResponseEntity.noContent().build();
-        }
-    }
+//    @GetMapping("/uploads/{fileName:.+}")
+//    public ResponseEntity<byte[]> readFile(@PathVariable String fileName){
+//        try{
+//            byte[] bytes=fileService.readFileContent(fileName);
+//            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.IMAGE_JPEG).body(bytes);
+//        }
+//        catch (Exception e){
+//            return ResponseEntity.noContent().build();
+//        }
+//    }
 }
